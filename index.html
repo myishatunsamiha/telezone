@@ -26,56 +26,22 @@
         </nav>
     </header>
 
-    <main>
+    <main class="container">
         <!-- searching panel section -->
         <section id="search-box-container" class="my-4">
             <div class="input-group input-group-lg w-50 mx-auto">
-                <input type="text" class="form-control border-success" placeholder="phone" aria-label="enter phone nam"
-                    aria-describedby="button-addon2">
+                <input type="text" id="search-field" class="form-control border-success" placeholder="phone"
+                    aria-label="enter phone nam" aria-describedby="button-addon2">
                 <button class="btn btn-outline-success" type="button" id="search-btn">Search</button>
             </div>
         </section>
 
         <!-- phone detail section -->
-        <section id="phone-detail-container" class="my-4">
-            <div class="card mb-3 mx-auto" style=" max-width: 540px;">
-                <div class="row g-0">
-                    <div class="col-md-4">
-                        <img src="..." class="img-fluid rounded-start" alt="...">
-                    </div>
-                    <div class="col-md-8">
-                        <div class="card-body">
-                            <h5 class="card-title">Card title</h5>
-                            <p class="card-text">This is a wider card with supporting text below as a natural lead-in to
-                                additional
-                                content. This content is a little bit longer.</p>
-                            <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <section id="phone-detail-container" class="my-4 d-flex justify-content-center">
         </section>
 
         <!-- display search results section -->
-        <section id="search-result-container mx-3" class="my-4">
-
-            <div class="row row-cols-1 row-cols-md-3 g-4">
-                <div class="col">
-                    <div class="card h-100">
-                        <img src="..." class="card-img-top" alt="...">
-                        <div class="card-body">
-                            <h5 class="card-title">Card title</h5>
-                            <p class="card-text">This is a wider card with supporting text below as a natural lead-in to
-                                additional
-                                content. This content is a little bit longer.</p>
-                        </div>
-                        <div class="card-footer">
-                            <small class="text-muted">Last updated 3 mins ago</small>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
+        <section id="search-result-container" class="my-4">
         </section>
 
     </main>
