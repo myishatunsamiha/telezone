@@ -1,3 +1,29 @@
+const showAllResults = (phones) => {
+    const searchResulContainer = document.getElementById("search-result-container");
+
+    let row = document.querySelector(".row");
+
+    console.log("show phones after 19");
+    console.log(phones.slice(20, phones.length));
+    phones.slice(20, phones.length).forEach(phone => {
+        const col = document.createElement("col");
+        col.innerHTML = `<div class="card h-100 rounded-3 p-3">
+                                <img src="${phone.image}" class="card-img-top rounded" alt="image of the phone">
+                                    <div class="card-body">
+                                        <p class="card-title">Brand: <strong>${phone.brand}</strong></p>
+                                        <p class="card-text">Phone Name: <strong>${phone.phone_name}</strong></p>
+                                    </div>
+                                    <div class="d-flex justify-content-center">
+                                        <button type="button" class="btn btn-outline-success btn-lg" onclick=phoneDetails('${phone.slug}')>Explore</button>
+                                    </div>
+                            </div>`;
+        row.appendChild(col);
+    });
+    searchResulContainer.appendChild(row);
+}
+
+
+
 
 const searchPhone = () => {
     const searchField = document.getElementById("search-field");
@@ -11,15 +37,19 @@ const searchPhone = () => {
 document.getElementById("search-btn").addEventListener("click", searchPhone);
 
 const displayResults = (phones) => {
-    console.log(phones);
+
     if (phones.length == 0) {
         console.log("no results found");
     } else {
+        console.log(phones.slice(0, 20));
+
+        const searchResulContainer = document.getElementById("search-result-container");
+        searchResulContainer.textContent = "";
 
         let div = document.createElement("div");
         div.classList.add("row", "row-cols-1", "row-cols-md-3", "g-4");
 
-        phones.forEach(phone => {
+        phones.slice(0, 20).forEach(phone => {
             const col = document.createElement("col");
             col.innerHTML = `<div class="card h-100 rounded-3 p-3">
                                 <img src="${phone.image}" class="card-img-top rounded" alt="image of the phone">
@@ -33,10 +63,37 @@ const displayResults = (phones) => {
                             </div>`;
             div.appendChild(col);
         });
-
-        const searchResulContainer = document.getElementById("search-result-container");
         searchResulContainer.appendChild(div);
-        console.log(searchResulContainer.innerHTML);
+
+        if (phones.length > 20) {
+            const showAllBtnDiv = document.createElement("div");
+            showAllBtnDiv.classList.add("d-flex", "justify-content-center", "mt-3", "d-block");
+            showAllBtnDiv.innerHTML = `<button type="button" class="btn btn-outline-success btn-lg" id="show-all-results-btn">Show All</button>`;
+            searchResulContainer.appendChild(showAllBtnDiv);
+
+            const showAllResultsBtn = document.getElementById("show-all-results-btn");
+            showAllResultsBtn.onclick = function () {
+                phones.slice(20, phones.length).forEach(phone => {
+                    const col = document.createElement("col");
+                    col.innerHTML = `<div class="card h-100 rounded-3 p-3">
+                                <img src="${phone.image}" class="card-img-top rounded" alt="image of the phone">
+                                    <div class="card-body">
+                                        <p class="card-title">Brand: <strong>${phone.brand}</strong></p>
+                                        <p class="card-text">Phone Name: <strong>${phone.phone_name}</strong></p>
+                                    </div>
+                                    <div class="d-flex justify-content-center">
+                                        <button type="button" class="btn btn-outline-success btn-lg" onclick=phoneDetails('${phone.slug}')>Explore</button>
+                                    </div>
+                            </div>`;
+                    div.appendChild(col);
+                });
+                searchResulContainer.appendChild(div);
+                showAllBtnDiv.classList.remove("d-block");
+                showAllBtnDiv.classList.add("d-none");
+            }
+        }
+
+
     }
 }
 
@@ -73,7 +130,7 @@ const displayPhoneDetails = (phone) => {
                         <li class="list-group-item bg-dark text-white">display size-<strong>${phone.mainFeatures.displaySize}</strong></li>
                         <li class="list-group-item bg-dark text-white">chip set-<strong>${phone.mainFeatures.chipSet}</strong></li>
                         <li class="list-group-item bg-dark text-white">memory- <strong>${phone.mainFeatures.memory}</strong></li>
-                        <li class="list-group-item bg-dark text-white">sensors- <strong>${phone.mainFeatures.sensors}</strong></li>
+                        <li class="list-group-item bg-dark text-white">sensors- <strong>${phone.mainFeatures?.sensors ?? "no mentioned"}</strong></li>
                     </ul>
                     <br>
 
@@ -93,3 +150,6 @@ const displayPhoneDetails = (phone) => {
                 </div > `
 };
 // ${phone.releaseDate}
+
+
+
