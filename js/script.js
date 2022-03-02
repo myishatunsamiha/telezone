@@ -14,6 +14,8 @@ const searchPhone = () => {
     const searchField = document.getElementById("search-field");
     const searchFieldValue = searchField.value.toLowerCase();
 
+    document.getElementById("search-field").value = "";
+
     const searchResultContainer = document.getElementById("search-result-container");
     searchResultContainer.textContent = "";
 
