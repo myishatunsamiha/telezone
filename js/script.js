@@ -29,6 +29,15 @@ const searchPhone = () => {
     const searchField = document.getElementById("search-field");
     const searchFieldValue = searchField.value.toLowerCase();
 
+    if (searchFieldValue == "") {
+        const searchResultContainer = document.getElementById("search-result-container");
+        searchResultContainer.innerHTML = `<h4 class="text-muted text-center">Search by phone brand name</h4>`;
+        return;
+    }
+
+    const phoneDetailContainer = document.getElementById("phone-detail-container");
+    phoneDetailContainer.textContent = "";
+
     fetch(`https://openapi.programming-hero.com/api/phones?search=${searchFieldValue}`)     // fetch the url
         .then(res => res.json())    // convert the response into json object
         .then(phones => displayResults(phones.data))
@@ -36,10 +45,12 @@ const searchPhone = () => {
 }
 document.getElementById("search-btn").addEventListener("click", searchPhone);
 
+
 const displayResults = (phones) => {
 
     if (phones.length == 0) {
-        console.log("no results found");
+        const searchResultContainer = document.getElementById("search-result-container");
+        searchResultContainer.innerHTML = `<h4 class="text-muted text-center">No results found!</h4>`;
     } else {
         console.log(phones.slice(0, 20));
 
@@ -72,7 +83,7 @@ const displayResults = (phones) => {
             searchResulContainer.appendChild(showAllBtnDiv);
 
             const showAllResultsBtn = document.getElementById("show-all-results-btn");
-            showAllResultsBtn.onclick = function () {
+            showAllResultsBtn.onclick = () => {
                 phones.slice(20, phones.length).forEach(phone => {
                     const col = document.createElement("col");
                     col.innerHTML = `<div class="card h-100 rounded-3 p-3">
@@ -118,7 +129,7 @@ const displayPhoneDetails = (phone) => {
     console.log(phone.others);
     const phoneDetailContainer = document.getElementById("phone-detail-container");
 
-    phoneDetailContainer.innerHTML = `<div class="card text-white bg-dark" style="max-width: 20rem; font-size: 15px;">
+    phoneDetailContainer.innerHTML = `<div class="card text-white bg-dark" style="max-width: 25rem; font-size: 15px;">
                 <img src="${phone.image}" class="card-img-top w-100" alt="...">
                 <div class="card-body p-3">
                     <p class="card-text">Date: <strong>${releaseDateStatus}</strong></p>
@@ -126,11 +137,11 @@ const displayPhoneDetails = (phone) => {
                     <p class="card-text">Phone Name: <strong>${phone.name}</strong></p>
                     <p class="card-text">Main Features: </p>
                     <ul class="list-group list-group-flush">
-                        <li class="list-group-item bg-dark text-white">storage-<strong>${phone.mainFeatures.storage}</strong></li>
-                        <li class="list-group-item bg-dark text-white">display size-<strong>${phone.mainFeatures.displaySize}</strong></li>
-                        <li class="list-group-item bg-dark text-white">chip set-<strong>${phone.mainFeatures.chipSet}</strong></li>
-                        <li class="list-group-item bg-dark text-white">memory- <strong>${phone.mainFeatures.memory}</strong></li>
-                        <li class="list-group-item bg-dark text-white">sensors- <strong>${phone.mainFeatures?.sensors ?? "no mentioned"}</strong></li>
+                        <li class="list-group-item bg-dark text-white">storage-<strong>${phone.mainFeatures?.storage ?? "not given"}</strong></li>
+                        <li class="list-group-item bg-dark text-white">display size-<strong>${phone.mainFeatures?.displaySize ?? "not given"}</strong></li>
+                        <li class="list-group-item bg-dark text-white">chip set-<strong>${phone.mainFeatures?.chipSet ?? "not given"}</strong></li>
+                        <li class="list-group-item bg-dark text-white">memory- <strong>${phone.mainFeatures?.memory ?? "not given"}</strong></li>
+                        <li class="list-group-item bg-dark text-white">sensors- <strong>${phone.mainFeatures?.sensors ?? "no given"}</strong></li>
                     </ul>
                     <br>
 
@@ -149,7 +160,7 @@ const displayPhoneDetails = (phone) => {
                 </div >
                 </div > `
 };
-// ${phone.releaseDate}
+
 
 
 
