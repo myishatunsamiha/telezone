@@ -1,3 +1,4 @@
+
 const searchPhone = () => {
     const searchField = document.getElementById("search-field");
     const searchFieldValue = searchField.value.toLowerCase();
@@ -39,3 +40,56 @@ const displayResults = (phones) => {
     }
 }
 
+const phoneDetails = (phoneId) => {
+    const url = `https://openapi.programming-hero.com/api/phone/${phoneId}`;
+    console.log(url);
+
+    fetch(url)
+        .then(response => response.json())
+        .then(data => displayPhoneDetails(data.data));
+}
+
+const displayPhoneDetails = (phone) => {
+
+    let releaseDateStatus;
+    if (phone.releaseDate.length > 0) {
+        releaseDateStatus = phone.releaseDate;
+    } else {
+        releaseDateStatus = `<span class="text-muted">No data found</span>`;
+    }
+
+    console.log(phone.others);
+    const phoneDetailContainer = document.getElementById("phone-detail-container");
+
+    phoneDetailContainer.innerHTML = `<div class="card text-white bg-dark" style="max-width: 20rem; font-size: 15px;">
+                <img src="${phone.image}" class="card-img-top w-100" alt="...">
+                <div class="card-body p-3">
+                    <p class="card-text">Date: <strong>${releaseDateStatus}</strong></p>
+                    <p class="card-text">Brand: <strong>${phone.brand}</strong></p>
+                    <p class="card-text">Phone Name: <strong>${phone.name}</strong></p>
+                    <p class="card-text">Main Features: </p>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item bg-dark text-white">storage-<strong>${phone.mainFeatures.storage}</strong></li>
+                        <li class="list-group-item bg-dark text-white">display size-<strong>${phone.mainFeatures.displaySize}</strong></li>
+                        <li class="list-group-item bg-dark text-white">chip set-<strong>${phone.mainFeatures.chipSet}</strong></li>
+                        <li class="list-group-item bg-dark text-white">memory- <strong>${phone.mainFeatures.memory}</strong></li>
+                        <li class="list-group-item bg-dark text-white">sensors- <strong>${phone.mainFeatures.sensors}</strong></li>
+                    </ul>
+                    <br>
+
+                    ${(phone.others) ? `Others: 
+                    <ul>
+                        <li>WLAN: ${phone.others.WLAN ?? ""}</li>
+                        <li>Bluetooth:${phone.others.Bluetooth ?? ""}</li>
+                        <li>GPS: ${phone.others.GPS ?? ""}</li>
+                        <li>NFC: ${phone.others.NFC ?? ""}</li>
+                        <li>Radio: ${phone.others.Radio ?? ""}</li>
+                        <li>USB: ${phone.others.USB ?? ""}</li>
+                    </ul>` : ""}
+                    
+
+    <a href="#" class="btn btn-outline-light">Purchase</a>
+                </div >
+                </div > `
+};
+// ${phone.releaseDate}
