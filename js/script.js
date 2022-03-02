@@ -125,6 +125,7 @@ const displayPhoneDetails = (phone) => {
     console.log(phone.others);
     const phoneDetailContainer = document.getElementById("phone-detail-container");
 
+
     phoneDetailContainer.innerHTML = `<div class="card text-white bg-dark" style="max-width: 25rem; font-size: 15px;">
                 <img src="${phone.image}" class="card-img-top w-100" alt="...">
                 <div class="card-body p-3">
@@ -137,7 +138,7 @@ const displayPhoneDetails = (phone) => {
                         <li class="list-group-item bg-dark text-white">display size-<strong>${phone.mainFeatures?.displaySize ?? "not given"}</strong></li>
                         <li class="list-group-item bg-dark text-white">chip set-<strong>${phone.mainFeatures?.chipSet ?? "not given"}</strong></li>
                         <li class="list-group-item bg-dark text-white">memory- <strong>${phone.mainFeatures?.memory ?? "not given"}</strong></li>
-                        <li class="list-group-item bg-dark text-white">sensors- <strong>${phone.mainFeatures?.sensors ?? "no given"}</strong></li>
+                        <li class="list-group-item bg-dark text-white">sensors- <strong><ul>${phone.mainFeatures?.sensors.map(s => `<li>${s}</li>`).toString().split(",").join('') ?? "not given"}</ul></strong></li>
                     </ul>
                     <br>
 
