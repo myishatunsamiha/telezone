@@ -23,20 +23,34 @@ const showAllResults = (phones) => {
 }
 
 
+const toggleSpinner = displayStyle => {
+    document.getElementById("spinner").style.display = displayStyle;
+}
+
+const toggleSearchResult = displayStyle => {
+    document.getElementById("search-result-container").style.display = displayStyle;
+    document.getElementById("phone-detail-container").style.display = displayStyle;
+}
 
 
 const searchPhone = () => {
     const searchField = document.getElementById("search-field");
     const searchFieldValue = searchField.value.toLowerCase();
 
-    if (searchFieldValue == "") {
-        const searchResultContainer = document.getElementById("search-result-container");
-        searchResultContainer.innerHTML = `<h4 class="text-muted text-center">Search by phone brand name</h4>`;
-        return;
-    }
+    const searchResultContainer = document.getElementById("search-result-container");
+    searchResultContainer.textContent = "";
 
     const phoneDetailContainer = document.getElementById("phone-detail-container");
     phoneDetailContainer.textContent = "";
+
+    if (searchFieldValue == "") {
+        searchResultContainer.innerHTML = `<h4 class="text-muted text-center">Search your desired phone</h4>`;
+        return;
+    }
+
+
+    toggleSpinner("block");
+    toggleSearchResult("none");
 
     fetch(`https://openapi.programming-hero.com/api/phones?search=${searchFieldValue}`)     // fetch the url
         .then(res => res.json())    // convert the response into json object
@@ -47,15 +61,12 @@ document.getElementById("search-btn").addEventListener("click", searchPhone);
 
 
 const displayResults = (phones) => {
+    const searchResultContainer = document.getElementById("search-result-container");
 
     if (phones.length == 0) {
-        const searchResultContainer = document.getElementById("search-result-container");
         searchResultContainer.innerHTML = `<h4 class="text-muted text-center">No results found!</h4>`;
-    } else {
-        console.log(phones.slice(0, 20));
 
-        const searchResulContainer = document.getElementById("search-result-container");
-        searchResulContainer.textContent = "";
+    } else {
 
         let div = document.createElement("div");
         div.classList.add("row", "row-cols-1", "row-cols-md-3", "g-4");
@@ -74,13 +85,13 @@ const displayResults = (phones) => {
                             </div>`;
             div.appendChild(col);
         });
-        searchResulContainer.appendChild(div);
+        searchResultContainer.appendChild(div);
 
         if (phones.length > 20) {
             const showAllBtnDiv = document.createElement("div");
             showAllBtnDiv.classList.add("d-flex", "justify-content-center", "mt-3", "d-block");
             showAllBtnDiv.innerHTML = `<button type="button" class="btn btn-outline-success btn-lg" id="show-all-results-btn">Show All</button>`;
-            searchResulContainer.appendChild(showAllBtnDiv);
+            searchResultContainer.appendChild(showAllBtnDiv);
 
             const showAllResultsBtn = document.getElementById("show-all-results-btn");
             showAllResultsBtn.onclick = () => {
@@ -98,7 +109,7 @@ const displayResults = (phones) => {
                             </div>`;
                     div.appendChild(col);
                 });
-                searchResulContainer.appendChild(div);
+                searchResultContainer.appendChild(div);
                 showAllBtnDiv.classList.remove("d-block");
                 showAllBtnDiv.classList.add("d-none");
             }
@@ -106,6 +117,9 @@ const displayResults = (phones) => {
 
 
     }
+
+    toggleSpinner("none");
+    toggleSearchResult("block");
 }
 
 const phoneDetails = (phoneId) => {

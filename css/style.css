@@ -4,3 +4,7 @@ body {
     font-family: 'Poppins', sans-serif;
     background-color:rgba(155, 168, 182, 0.212);
 }
+
+#spinner{
+    display:none;
+}
